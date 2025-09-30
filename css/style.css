@@ -946,6 +946,18 @@ section {
     margin-top: 10px;
     overflow: hidden;
     position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.skill-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: loading 2s infinite;
 }
 
 .skill-bar::after {
@@ -976,6 +988,18 @@ section {
     transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    min-width: 2px; /* Ensure bars are at least visible */
+}
+
+.skill-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+    border-radius: 10px;
 }
 
 /* ===== Projects Section ===== */
@@ -1533,6 +1557,35 @@ section {
 
     .skills-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .skill-category {
+        padding: 25px 20px;
+    }
+
+    .category-header {
+        margin-bottom: 20px;
+    }
+
+    .category-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .skill-item {
+        margin-bottom: 15px;
+    }
+
+    .skill-item i {
+        font-size: 1.1rem;
+    }
+
+    .skill-item span {
+        font-size: 0.85rem;
+    }
+
+    .skill-bar {
+        height: 8px;
     }
 
     .projects-filter {
@@ -1617,6 +1670,29 @@ section {
 
     .stats {
         grid-template-columns: 1fr;
+    }
+
+    .skill-category {
+        padding: 20px;
+    }
+
+    .skill-item {
+        margin-bottom: 18px;
+    }
+
+    .skill-item span {
+        font-size: 0.9rem;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .skill-bar {
+        height: 8px;
+        margin-top: 8px;
+    }
+
+    .skill-progress {
+        min-height: 8px;
     }
 
     .about-text h3 {

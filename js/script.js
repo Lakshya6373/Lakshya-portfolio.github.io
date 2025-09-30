@@ -233,11 +233,25 @@ const skillsObserver = new IntersectionObserver((entries) => {
             skillsObserver.unobserve(entry.target);
         }
     });
-}, observerOptions);
+}, {
+    threshold: 0.1,  // Trigger earlier, especially on mobile
+    rootMargin: '0px 0px -50px 0px'
+});
 
 const skillsSection = document.querySelector('.skills');
 if (skillsSection) {
     skillsObserver.observe(skillsSection);
+    
+    // Fallback for mobile: trigger after a short delay if not already triggered
+    setTimeout(() => {
+        const progressBars = document.querySelectorAll('.skill-progress');
+        progressBars.forEach(bar => {
+            if (bar.style.width === '0px' || bar.style.width === '') {
+                const progress = bar.getAttribute('data-progress');
+                bar.style.width = progress + '%';
+            }
+        });
+    }, 2000);
 }
 
 // ===== Project Filtering =====
