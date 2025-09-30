@@ -95,12 +95,13 @@ window.addEventListener('resize', () => {
 
 // ===== Typing Animation =====
 const typingTexts = [
-    "Building scalable cloud infrastructure ☁️",
-    "Automating deployments with CI/CD 🚀",
+    "Building scalable AWS cloud infrastructure ☁️",
+    "Automating deployments with CI/CD pipelines 🚀",
     "Orchestrating containers with Kubernetes 🐳",
-    "Managing infrastructure as code 📝",
-    "Monitoring and optimizing systems 📊",
-    "Securing cloud environments 🔒"
+    "Managing infrastructure as code with Terraform 📝",
+    "Monitoring systems with Prometheus & Grafana 📊",
+    "Ensuring high availability and disaster recovery 🔒",
+    "Implementing DevOps best practices �"
 ];
 
 let textIndex = 0;
