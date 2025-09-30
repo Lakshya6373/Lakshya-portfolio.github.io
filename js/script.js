@@ -1,6 +1,15 @@
 // ===== Preloader =====
 window.addEventListener('load', () => {
-    const preloader = document.querySelector('.preloader');
+    const preloader = docume// ===== Typing Animation =====
+const typingTexts = [
+    "Managing AWS cloud infrastructure (EC2, VPC, S3, EKS) ☁️",
+    "Deploying and orchestrating Kubernetes applications 🐳",
+    "Automating CI/CD pipelines with Jenkins 🚀",
+    "Optimizing cloud costs by 30% with smart strategies 💰",
+    "Building Infrastructure as Code with Terraform 📝",
+    "Monitoring systems with Prometheus & Grafana 📊",
+    "Ensuring zero-downtime deployments with auto-scaling 🔒"
+];lector('.preloader');
     setTimeout(() => {
         preloader.classList.add('hide');
         setTimeout(() => {
