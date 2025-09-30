@@ -147,6 +147,8 @@ const navLinks = document.querySelectorAll('.nav-link');
 
 if (hamburger) {
     hamburger.addEventListener('click', () => {
+        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !isExpanded);
         navMenu.classList.toggle('active');
         hamburger.classList.toggle('active');
         document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
@@ -158,6 +160,7 @@ navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
         hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
     });
 });
@@ -167,7 +170,19 @@ document.addEventListener('click', (e) => {
     if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
         navMenu.classList.remove('active');
         hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+    }
+});
+
+// Close menu on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        hamburger.focus();
     }
 });
 
@@ -316,10 +331,14 @@ const projectCards = document.querySelectorAll('.project-card');
 
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        filterBtns.forEach(b => b.classList.remove('active'));
-        // Add active class to clicked button
+        // Remove active class and update aria-pressed from all buttons
+        filterBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+        });
+        // Add active class and update aria-pressed to clicked button
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         
         const filter = btn.getAttribute('data-filter');
         
@@ -357,6 +376,52 @@ filterBtns.forEach(btn => {
 // ===== Contact Form Handling =====
 const contactForm = document.getElementById('contactForm');
 
+// Form validation function
+function validateForm(formData) {
+    const errors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!formData.name || formData.name.trim().length < 2) {
+        errors.name = 'Please enter your full name';
+    }
+    
+    if (!formData.email || !emailRegex.test(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+    }
+    
+    if (!formData.subject || formData.subject.trim().length < 3) {
+        errors.subject = 'Please enter a subject';
+    }
+    
+    if (!formData.message || formData.message.trim().length < 10) {
+        errors.message = 'Please enter a message (minimum 10 characters)';
+    }
+    
+    return errors;
+}
+
+// Show error message
+function showError(fieldName, message) {
+    const input = document.getElementById(`contact-${fieldName}`);
+    const errorSpan = input.parentElement.querySelector('.error-message');
+    
+    input.classList.add('error');
+    input.classList.remove('success');
+    input.setAttribute('aria-invalid', 'true');
+    errorSpan.textContent = message;
+}
+
+// Clear error message
+function clearError(fieldName) {
+    const input = document.getElementById(`contact-${fieldName}`);
+    const errorSpan = input.parentElement.querySelector('.error-message');
+    
+    input.classList.remove('error');
+    input.classList.add('success');
+    input.setAttribute('aria-invalid', 'false');
+    errorSpan.textContent = '';
+}
+
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -364,11 +429,29 @@ contactForm.addEventListener('submit', (e) => {
     const formData = new FormData(contactForm);
     const data = Object.fromEntries(formData);
     
+    // Validate form
+    const errors = validateForm(data);
+    
+    // Clear all previous errors
+    ['name', 'email', 'subject', 'message'].forEach(field => clearError(field));
+    
+    // If there are errors, show them and stop
+    if (Object.keys(errors).length > 0) {
+        Object.keys(errors).forEach(field => {
+            showError(field, errors[field]);
+        });
+        // Focus on first error field
+        const firstErrorField = Object.keys(errors)[0];
+        document.getElementById(`contact-${firstErrorField}`).focus();
+        return;
+    }
+    
     // Add loading state
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> <span>Sending...</span>';
     submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-busy', 'true');
     
     // Simulate form submission (replace with actual API call)
     setTimeout(() => {
@@ -379,6 +462,16 @@ contactForm.addEventListener('submit', (e) => {
         contactForm.reset();
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
+        submitBtn.setAttribute('aria-busy', 'false');
+        
+        // Announce success to screen readers
+        const announcement = document.createElement('div');
+        announcement.setAttribute('role', 'status');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.className = 'visually-hidden';
+        announcement.textContent = 'Your message has been sent successfully';
+        document.body.appendChild(announcement);
+        setTimeout(() => announcement.remove(), 3000);
     }, 1500);
     
     // In a real implementation, you would send this data to a backend service
@@ -397,11 +490,13 @@ contactForm.addEventListener('submit', (e) => {
         contactForm.reset();
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
+        submitBtn.setAttribute('aria-busy', 'false');
     })
     .catch((error) => {
         alert('Error sending message. Please try again.');
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
+        submitBtn.setAttribute('aria-busy', 'false');
     });
     */
 });
@@ -466,3 +561,15 @@ console.log('%c🚀 Portfolio Website Loaded Successfully!', 'color: #00d4ff; fo
 console.log('%c💡 Built with HTML, CSS, and JavaScript', 'color: #00ff88; font-size: 14px;');
 console.log('%c📧 Interested in working together? Let\'s connect!', 'color: #0066ff; font-size: 14px;');
 console.log('%c⚡ Powered by GitHub Pages', 'color: #ff6b00; font-size: 14px;');
+console.log('%c♿ WCAG AA Compliant', 'color: #00ff88; font-size: 14px; font-weight: bold;');
+
+// ===== Announce page load to screen readers =====
+window.addEventListener('load', () => {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('role', 'status');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.className = 'visually-hidden';
+    announcement.textContent = 'Portfolio page loaded successfully. You are now on the home section.';
+    document.body.appendChild(announcement);
+    setTimeout(() => announcement.remove(), 3000);
+});

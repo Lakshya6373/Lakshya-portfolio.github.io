@@ -13,15 +13,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Skip to main content (WCAG AA) -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
     <!-- Preloader -->
-    <div class="preloader">
+    <div class="preloader" role="status" aria-live="polite">
         <div class="loader">
-            <div class="spinner"></div>
+            <div class="spinner" aria-hidden="true"></div>
             <p>Loading Portfolio...</p>
         </div>
     </div>
     <!-- Animated Cloud Background -->
-    <div class="clouds-container">
+    <div class="clouds-container" aria-hidden="true">
         <div class="cloud cloud1"></div>
         <div class="cloud cloud2"></div>
         <div class="cloud cloud3"></div>
@@ -29,62 +32,62 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
         <div class="container">
             <div class="nav-brand">
-                <i class="fas fa-cloud"></i> DevOps Portfolio
+                <i class="fas fa-cloud" aria-hidden="true"></i> <span>DevOps Portfolio</span>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a href="#home" class="nav-link" role="menuitem">Home</a></li>
+                <li role="none"><a href="#about" class="nav-link" role="menuitem">About</a></li>
+                <li role="none"><a href="#skills" class="nav-link" role="menuitem">Skills</a></li>
+                <li role="none"><a href="#projects" class="nav-link" role="menuitem">Projects</a></li>
+                <li role="none"><a href="#contact" class="nav-link" role="menuitem">Contact</a></li>
             </ul>
-            <div class="hamburger">
+            <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
+    <section id="home" class="hero" aria-labelledby="hero-heading">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <i class="fas fa-code"></i> Available for Opportunities
+            <div class="hero-content" id="main-content">
+                <div class="hero-badge" role="status">
+                    <i class="fas fa-code" aria-hidden="true"></i> Available for Opportunities
                 </div>
-                <h1 class="glitch" data-text="Lakshya Dubey">Lakshya Dubey</h1>
+                <h1 id="hero-heading" class="glitch" data-text="Lakshya Dubey">Lakshya Dubey</h1>
                 <h2 class="hero-subtitle">Cloud & DevOps Engineer</h2>
-                <p class="typing-text"></p>
+                <p class="typing-text" aria-live="polite" aria-atomic="true"></p>
                 <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i> View Projects
+                    <a href="#projects" class="btn btn-primary" aria-label="View my projects">
+                        <i class="fas fa-rocket" aria-hidden="true"></i> <span>View Projects</span>
                     </a>
-                    <a href="#contact" class="btn btn-secondary">
-                        <i class="fas fa-envelope"></i> Contact Me
+                    <a href="#contact" class="btn btn-secondary" aria-label="Contact me">
+                        <i class="fas fa-envelope" aria-hidden="true"></i> <span>Contact Me</span>
                     </a>
-                    <a href="#" class="btn btn-outline" download>
-                        <i class="fas fa-download"></i> Download CV
-                    </a>
-                </div>
-                <div class="social-links">
-                    <a href="https://github.com/Lakshya6373" target="_blank" class="social-icon" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="#" target="_blank" class="social-icon" title="LinkedIn">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                    <a href="#" target="_blank" class="social-icon" title="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" target="_blank" class="social-icon" title="Docker Hub">
-                        <i class="fab fa-docker"></i>
+                    <a href="#" class="btn btn-outline" download aria-label="Download my CV (PDF)">
+                        <i class="fas fa-download" aria-hidden="true"></i> <span>Download CV</span>
                     </a>
                 </div>
-                <div class="scroll-indicator">
+                <nav class="social-links" aria-label="Social media links">
+                    <a href="https://github.com/Lakshya6373" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Visit my GitHub profile">
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Visit my LinkedIn profile">
+                        <i class="fab fa-linkedin" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Visit my Twitter profile">
+                        <i class="fab fa-twitter" aria-hidden="true"></i>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Visit my Docker Hub profile">
+                        <i class="fab fa-docker" aria-hidden="true"></i>
+                    </a>
+                </nav>
+                <div class="scroll-indicator" aria-hidden="true">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -92,19 +95,19 @@
             </div>
         </div>
         <!-- Particle Effect -->
-        <canvas id="particles"></canvas>
+        <canvas id="particles" aria-hidden="true"></canvas>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
+    <section id="about" class="about" aria-labelledby="about-heading">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">About Me</h2>
+            <h2 id="about-heading" class="section-title" data-aos="fade-up">About Me</h2>
             <div class="about-content">
                 <div class="about-image" data-aos="fade-right">
-                    <div class="image-placeholder">
-                        <i class="fas fa-user-tie"></i>
+                    <div class="image-placeholder" role="img" aria-label="Professional profile placeholder">
+                        <i class="fas fa-user-tie" aria-hidden="true"></i>
                     </div>
-                    <div class="experience-badge">
+                    <div class="experience-badge" role="status" aria-label="3 plus years of experience">
                         <div class="badge-content">
                             <h3>3+</h3>
                             <p>Years Experience</p>
@@ -117,46 +120,46 @@
                     <p>I'm a dedicated Cloud & DevOps Engineer specializing in building scalable, automated infrastructure solutions. With expertise in cloud platforms, CI/CD pipelines, and containerization, I help organizations accelerate their digital transformation journey.</p>
                     <p>My mission is to bridge the gap between development and operations, ensuring seamless deployments and robust infrastructure management through cutting-edge DevOps practices.</p>
                     
-                    <div class="about-highlights">
-                        <div class="highlight-item">
-                            <i class="fas fa-check-circle"></i>
+                    <ul class="about-highlights" role="list">
+                        <li class="highlight-item">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
                             <span>Cloud Architecture Design</span>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="fas fa-check-circle"></i>
+                        </li>
+                        <li class="highlight-item">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
                             <span>CI/CD Pipeline Implementation</span>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="fas fa-check-circle"></i>
+                        </li>
+                        <li class="highlight-item">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
                             <span>Container Orchestration</span>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="fas fa-check-circle"></i>
+                        </li>
+                        <li class="highlight-item">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
                             <span>Infrastructure as Code</span>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
             
-            <div class="stats" data-aos="fade-up">
+            <div class="stats" data-aos="fade-up" role="region" aria-label="Professional statistics">
                 <div class="stat-item">
-                    <i class="fas fa-project-diagram"></i>
-                    <h3 class="counter" data-target="50">0</h3>
+                    <i class="fas fa-project-diagram" aria-hidden="true"></i>
+                    <h3 class="counter" data-target="50" aria-label="50 plus projects deployed">0</h3>
                     <p>Projects Deployed</p>
                 </div>
                 <div class="stat-item">
-                    <i class="fas fa-server"></i>
-                    <h3 class="counter" data-target="100">0</h3>
+                    <i class="fas fa-server" aria-hidden="true"></i>
+                    <h3 class="counter" data-target="100" aria-label="100 plus servers managed">0</h3>
                     <p>Servers Managed</p>
                 </div>
                 <div class="stat-item">
-                    <i class="fas fa-code"></i>
-                    <h3 class="counter" data-target="1000">0</h3>
+                    <i class="fas fa-code" aria-hidden="true"></i>
+                    <h3 class="counter" data-target="1000" aria-label="1000 plus commits made">0</h3>
                     <p>Commits Made</p>
                 </div>
                 <div class="stat-item">
-                    <i class="fas fa-award"></i>
-                    <h3 class="counter" data-target="10">0</h3>
+                    <i class="fas fa-award" aria-hidden="true"></i>
+                    <h3 class="counter" data-target="10" aria-label="10 plus certifications">0</h3>
                     <p>Certifications</p>
                 </div>
             </div>
@@ -164,9 +167,9 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="skills">
+    <section id="skills" class="skills" aria-labelledby="skills-heading">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Technical Skills</h2>
+            <h2 id="skills-heading" class="section-title" data-aos="fade-up">Technical Skills</h2>
             <p class="section-description" data-aos="fade-up">Expertise across modern cloud platforms, DevOps tools, and automation technologies</p>
             <div class="skills-grid">
                 <!-- Cloud Platforms -->
@@ -297,15 +300,15 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects">
+    <section id="projects" class="projects" aria-labelledby="projects-heading">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Featured Projects</h2>
+            <h2 id="projects-heading" class="section-title" data-aos="fade-up">Featured Projects</h2>
             <p class="section-description" data-aos="fade-up">Showcasing real-world implementations and technical solutions</p>
-            <div class="projects-filter" data-aos="fade-up">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="cloud">Cloud</button>
-                <button class="filter-btn" data-filter="devops">DevOps</button>
-                <button class="filter-btn" data-filter="automation">Automation</button>
+            <div class="projects-filter" data-aos="fade-up" role="group" aria-label="Filter projects by category">
+                <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+                <button class="filter-btn" data-filter="cloud" aria-pressed="false">Cloud</button>
+                <button class="filter-btn" data-filter="devops" aria-pressed="false">DevOps</button>
+                <button class="filter-btn" data-filter="automation" aria-pressed="false">Automation</button>
             </div>
             <div class="projects-grid">
                 <div class="project-card" data-category="cloud devops" data-aos="zoom-in" data-aos-delay="100">
@@ -396,9 +399,9 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
+    <section id="contact" class="contact" aria-labelledby="contact-heading">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Get In Touch</h2>
+            <h2 id="contact-heading" class="section-title" data-aos="fade-up">Get In Touch</h2>
             <p class="section-description" data-aos="fade-up">Have a project in mind? Let's discuss how I can help</p>
             <div class="contact-content">
                 <div class="contact-info" data-aos="fade-right">
@@ -418,21 +421,29 @@
                         <p>+1 (123) 456-7890</p>
                     </div>
                 </div>
-                <form class="contact-form" id="contactForm" data-aos="fade-left">
+                <form class="contact-form" id="contactForm" data-aos="fade-left" novalidate>
                     <div class="form-group">
-                        <input type="text" name="name" placeholder="Your Name" required>
+                        <label for="contact-name" class="visually-hidden">Your Name</label>
+                        <input type="text" id="contact-name" name="name" placeholder="Your Name" required aria-required="true" autocomplete="name">
+                        <span class="error-message" role="alert" aria-live="polite"></span>
                     </div>
                     <div class="form-group">
-                        <input type="email" name="email" placeholder="Your Email" required>
+                        <label for="contact-email" class="visually-hidden">Your Email</label>
+                        <input type="email" id="contact-email" name="email" placeholder="Your Email" required aria-required="true" autocomplete="email">
+                        <span class="error-message" role="alert" aria-live="polite"></span>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="subject" placeholder="Subject" required>
+                        <label for="contact-subject" class="visually-hidden">Subject</label>
+                        <input type="text" id="contact-subject" name="subject" placeholder="Subject" required aria-required="true">
+                        <span class="error-message" role="alert" aria-live="polite"></span>
                     </div>
                     <div class="form-group">
-                        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                        <label for="contact-message" class="visually-hidden">Your Message</label>
+                        <textarea id="contact-message" name="message" rows="5" placeholder="Your Message" required aria-required="true"></textarea>
+                        <span class="error-message" role="alert" aria-live="polite"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Send Message
+                    <button type="submit" class="btn btn-primary" aria-label="Send message">
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i> <span>Send Message</span>
                     </button>
                 </form>
             </div>
@@ -475,8 +486,8 @@
     </footer>
 
     <!-- Scroll to Top Button -->
-    <button class="scroll-top" id="scrollTop">
-        <i class="fas fa-arrow-up"></i>
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
     </button>
 
     <script src="./js/script.js"></script>
