@@ -1,15 +1,6 @@
 // ===== Preloader =====
 window.addEventListener('load', () => {
-    const preloader = docume// ===== Typing Animation =====
-const typingTexts = [
-    "Managing AWS cloud infrastructure (EC2, VPC, S3, EKS) ☁️",
-    "Deploying and orchestrating Kubernetes applications 🐳",
-    "Automating CI/CD pipelines with Jenkins 🚀",
-    "Optimizing cloud costs by 30% with smart strategies 💰",
-    "Building Infrastructure as Code with Terraform 📝",
-    "Monitoring systems with Prometheus & Grafana 📊",
-    "Ensuring zero-downtime deployments with auto-scaling 🔒"
-];lector('.preloader');
+    const preloader = document.querySelector('.preloader');
     setTimeout(() => {
         preloader.classList.add('hide');
         setTimeout(() => {
@@ -58,59 +49,54 @@ class Particle {
     }
 }
 
-function initParticles() {
-    particlesArray.length = 0;
+function init() {
     for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
     }
 }
 
-function handleParticles() {
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
     for (let i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();
         particlesArray[i].draw();
-
+        
         for (let j = i; j < particlesArray.length; j++) {
             const dx = particlesArray[i].x - particlesArray[j].x;
             const dy = particlesArray[i].y - particlesArray[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-
+            
             if (distance < 100) {
+                ctx.beginPath();
                 ctx.strokeStyle = `rgba(0, 212, 255, ${0.2 - distance / 500})`;
                 ctx.lineWidth = 1;
-                ctx.beginPath();
                 ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
                 ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
                 ctx.stroke();
             }
         }
     }
+    requestAnimationFrame(animate);
 }
 
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    handleParticles();
-    requestAnimationFrame(animateParticles);
-}
-
-initParticles();
-animateParticles();
+init();
+animate();
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    initParticles();
 });
 
 // ===== Typing Animation =====
 const typingTexts = [
-    "Building scalable AWS cloud infrastructure ☁️",
-    "Automating deployments with CI/CD pipelines 🚀",
-    "Orchestrating containers with Kubernetes 🐳",
-    "Managing infrastructure as code with Terraform 📝",
+    "Managing AWS cloud infrastructure (EC2, VPC, S3, EKS) ☁️",
+    "Deploying and orchestrating Kubernetes applications 🐳",
+    "Automating CI/CD pipelines with Jenkins 🚀",
+    "Optimizing cloud costs by 30% with smart strategies 💰",
+    "Building Infrastructure as Code with Terraform 📝",
     "Monitoring systems with Prometheus & Grafana 📊",
-    "Ensuring high availability and disaster recovery 🔒",
-    "Implementing DevOps best practices �"
+    "Ensuring zero-downtime deployments with auto-scaling 🔒"
 ];
 
 let textIndex = 0;
@@ -153,173 +139,233 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== Mobile Menu Toggle =====
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
 
-if (hamburger) {
+if (hamburger && navMenu) {
     hamburger.addEventListener('click', () => {
-        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-        hamburger.setAttribute('aria-expanded', !isExpanded);
         navMenu.classList.toggle('active');
         hamburger.classList.toggle('active');
-        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        
+        const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !isExpanded);
+    });
+
+    // Close menu when clicking on nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+        });
     });
 }
 
-// Close menu when clicking on a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-    });
-});
-
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-    }
-});
-
-// Close menu on Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        hamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-        hamburger.focus();
-    }
-});
-
-// ===== Smooth Scrolling for Navigation Links =====
+// ===== Smooth Scrolling =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('click', function(e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            const offset = 80;
-            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }
     });
 });
 
-// ===== Scroll to Top Button =====
-const scrollTopBtn = document.getElementById('scrollTop');
-
+// ===== Navbar Background on Scroll =====
+const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        scrollTopBtn.classList.add('active');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
     } else {
-        scrollTopBtn.classList.remove('active');
-    }
-    
-    // Add shadow to navbar on scroll
-    const navbar = document.querySelector('.navbar');
-    if (window.pageYOffset > 50) {
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 212, 255, 0.3)';
-        navbar.style.background = 'rgba(10, 25, 41, 0.98)';
-    } else {
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 212, 255, 0.1)';
-        navbar.style.background = 'rgba(10, 25, 41, 0.95)';
+        navbar.classList.remove('scrolled');
     }
 });
 
-scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
-
-// ===== Counter Animation =====
+// ===== Stats Counter Animation =====
 const counters = document.querySelectorAll('.counter');
-let counterAnimated = false;
+const speed = 200;
 
-function animateCounters() {
+const animateCounter = () => {
     counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        const duration = 2000;
-        const increment = target / (duration / 16);
-        let current = 0;
-        
-        const updateCounter = () => {
-            current += increment;
-            if (current < target) {
-                counter.textContent = Math.floor(current);
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.textContent = target + '+';
-            }
-        };
-        
-        updateCounter();
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const increment = target / speed;
+
+        if (count < target) {
+            counter.innerText = Math.ceil(count + increment);
+            setTimeout(() => animateCounter(), 1);
+        } else {
+            counter.innerText = target + (target < 10 ? '+' : '');
+        }
     });
-}
-
-// ===== Skill Bar Animation =====
-const skillBars = document.querySelectorAll('.skill-progress');
-let skillsAnimated = false;
-
-function animateSkillBars() {
-    skillBars.forEach(bar => {
-        const progress = bar.getAttribute('data-progress');
-        setTimeout(() => {
-            bar.style.width = progress + '%';
-        }, 200);
-    });
-}
-
-// ===== Intersection Observer for Animations =====
-const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -100px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const observerOptions = {
+    threshold: 0.5,
+    rootMargin: '0px'
+};
+
+const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-            
-            // Animate counters when about section is visible
-            if (entry.target.classList.contains('about') && !counterAnimated) {
-                animateCounters();
-                counterAnimated = true;
-            }
-            
-            // Animate skill bars when skills section is visible
-            if (entry.target.classList.contains('skills') && !skillsAnimated) {
-                animateSkillBars();
-                skillsAnimated = true;
-            }
+            animateCounter();
+            statsObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observe all sections
-document.querySelectorAll('section').forEach(section => {
-    observer.observe(section);
-});
+const statsSection = document.querySelector('.stats');
+if (statsSection) {
+    statsObserver.observe(statsSection);
+}
 
-// ===== AOS Animation Alternative (Scroll Reveal) =====
+// ===== Skills Progress Animation =====
+const skillsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const progressBars = entry.target.querySelectorAll('.skill-progress');
+            progressBars.forEach(bar => {
+                const progress = bar.getAttribute('data-progress');
+                bar.style.width = progress + '%';
+            });
+            skillsObserver.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+const skillsSection = document.querySelector('.skills');
+if (skillsSection) {
+    skillsObserver.observe(skillsSection);
+}
+
+// ===== Project Filtering =====
+const filterBtns = document.querySelectorAll('.filter-btn');
+const projectCards = document.querySelectorAll('.project-card');
+
+if (filterBtns.length > 0) {
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+            
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            
+            projectCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-category').includes(filter)) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    });
+}
+
+// ===== Form Validation =====
+const contactForm = document.getElementById('contactForm');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        let isValid = true;
+        const formGroups = contactForm.querySelectorAll('.form-group');
+        
+        formGroups.forEach(group => {
+            const input = group.querySelector('input, textarea');
+            const errorMessage = group.querySelector('.error-message');
+            
+            if (!input.value.trim()) {
+                showError(input, errorMessage, 'This field is required');
+                isValid = false;
+            } else if (input.type === 'email' && !isValidEmail(input.value)) {
+                showError(input, errorMessage, 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                clearError(input, errorMessage);
+            }
+        });
+        
+        if (isValid) {
+            // Announce success to screen readers
+            const successMessage = document.createElement('div');
+            successMessage.setAttribute('role', 'status');
+            successMessage.setAttribute('aria-live', 'polite');
+            successMessage.textContent = 'Form submitted successfully!';
+            successMessage.style.position = 'absolute';
+            successMessage.style.left = '-10000px';
+            document.body.appendChild(successMessage);
+            
+            alert('Thank you for your message! I will get back to you soon.');
+            contactForm.reset();
+            
+            setTimeout(() => {
+                document.body.removeChild(successMessage);
+            }, 1000);
+        }
+    });
+}
+
+function showError(input, errorElement, message) {
+    input.classList.add('error');
+    input.setAttribute('aria-invalid', 'true');
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+}
+
+function clearError(input, errorElement) {
+    input.classList.remove('error');
+    input.setAttribute('aria-invalid', 'false');
+    errorElement.textContent = '';
+    errorElement.style.display = 'none';
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// ===== Scroll to Top Button =====
+const scrollTopBtn = document.getElementById('scrollTop');
+
+if (scrollTopBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('show');
+        } else {
+            scrollTopBtn.classList.remove('show');
+        }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// ===== Scroll Reveal Animation =====
 const revealElements = document.querySelectorAll('[data-aos]');
 
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            const delay = entry.target.getAttribute('data-aos-delay') || 0;
-            setTimeout(() => {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0) scale(1)';
-            }, delay);
+            entry.target.classList.add('aos-animate');
             revealObserver.unobserve(entry.target);
         }
     });
@@ -328,258 +374,43 @@ const revealObserver = new IntersectionObserver((entries) => {
     rootMargin: '0px 0px -50px 0px'
 });
 
-revealElements.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px) scale(0.95)';
-    el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-    revealObserver.observe(el);
+revealElements.forEach(element => {
+    revealObserver.observe(element);
 });
 
-// ===== Project Filter =====
-const filterBtns = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
-
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Remove active class and update aria-pressed from all buttons
-        filterBtns.forEach(b => {
-            b.classList.remove('active');
-            b.setAttribute('aria-pressed', 'false');
-        });
-        // Add active class and update aria-pressed to clicked button
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed', 'true');
-        
-        const filter = btn.getAttribute('data-filter');
-        
-        projectCards.forEach((card, index) => {
-            if (filter === 'all') {
-                setTimeout(() => {
-                    card.style.display = 'block';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'scale(1)';
-                    }, 50);
-                }, index * 100);
-            } else {
-                const categories = card.getAttribute('data-category');
-                if (categories.includes(filter)) {
-                    setTimeout(() => {
-                        card.style.display = 'block';
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'scale(1)';
-                        }, 50);
-                    }, index * 100);
-                } else {
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
-                }
-            }
-        });
-    });
-});
-
-// ===== Contact Form Handling =====
-const contactForm = document.getElementById('contactForm');
-
-// Form validation function
-function validateForm(formData) {
-    const errors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    if (!formData.name || formData.name.trim().length < 2) {
-        errors.name = 'Please enter your full name';
-    }
-    
-    if (!formData.email || !emailRegex.test(formData.email)) {
-        errors.email = 'Please enter a valid email address';
-    }
-    
-    if (!formData.subject || formData.subject.trim().length < 3) {
-        errors.subject = 'Please enter a subject';
-    }
-    
-    if (!formData.message || formData.message.trim().length < 10) {
-        errors.message = 'Please enter a message (minimum 10 characters)';
-    }
-    
-    return errors;
-}
-
-// Show error message
-function showError(fieldName, message) {
-    const input = document.getElementById(`contact-${fieldName}`);
-    const errorSpan = input.parentElement.querySelector('.error-message');
-    
-    input.classList.add('error');
-    input.classList.remove('success');
-    input.setAttribute('aria-invalid', 'true');
-    errorSpan.textContent = message;
-}
-
-// Clear error message
-function clearError(fieldName) {
-    const input = document.getElementById(`contact-${fieldName}`);
-    const errorSpan = input.parentElement.querySelector('.error-message');
-    
-    input.classList.remove('error');
-    input.classList.add('success');
-    input.setAttribute('aria-invalid', 'false');
-    errorSpan.textContent = '';
-}
-
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Get form data
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData);
-    
-    // Validate form
-    const errors = validateForm(data);
-    
-    // Clear all previous errors
-    ['name', 'email', 'subject', 'message'].forEach(field => clearError(field));
-    
-    // If there are errors, show them and stop
-    if (Object.keys(errors).length > 0) {
-        Object.keys(errors).forEach(field => {
-            showError(field, errors[field]);
-        });
-        // Focus on first error field
-        const firstErrorField = Object.keys(errors)[0];
-        document.getElementById(`contact-${firstErrorField}`).focus();
-        return;
-    }
-    
-    // Add loading state
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> <span>Sending...</span>';
-    submitBtn.disabled = true;
-    submitBtn.setAttribute('aria-busy', 'true');
-    
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-        // Show success message
-        alert('Thank you for your message! I will get back to you soon. 🚀');
-        
-        // Reset form
-        contactForm.reset();
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        submitBtn.setAttribute('aria-busy', 'false');
-        
-        // Announce success to screen readers
-        const announcement = document.createElement('div');
-        announcement.setAttribute('role', 'status');
-        announcement.setAttribute('aria-live', 'polite');
-        announcement.className = 'visually-hidden';
-        announcement.textContent = 'Your message has been sent successfully';
-        document.body.appendChild(announcement);
-        setTimeout(() => announcement.remove(), 3000);
-    }, 1500);
-    
-    // In a real implementation, you would send this data to a backend service
-    // Example using fetch:
-    /*
-    fetch('YOUR_API_ENDPOINT', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert('Message sent successfully!');
-        contactForm.reset();
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        submitBtn.setAttribute('aria-busy', 'false');
-    })
-    .catch((error) => {
-        alert('Error sending message. Please try again.');
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        submitBtn.setAttribute('aria-busy', 'false');
-    });
-    */
-});
-
-// ===== Parallax Effect for Clouds =====
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const clouds = document.querySelectorAll('.cloud');
-    
-    clouds.forEach((cloud, index) => {
-        const speed = (index + 1) * 0.03;
-        cloud.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-});
-
-// ===== Add Active State to Navigation Links on Scroll =====
-const sections = document.querySelectorAll('section');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// ===== Mouse Movement Parallax (Desktop Only) =====
-if (window.innerWidth > 768) {
-    document.addEventListener('mousemove', (e) => {
-        const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-        const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-        
-        document.querySelectorAll('.project-icon').forEach(icon => {
-            icon.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        });
-    });
-}
-
-// ===== Prevent Default Link Behavior for Demo Links =====
-document.querySelectorAll('.project-link, .social-icon').forEach(link => {
-    link.addEventListener('click', (e) => {
-        if (link.getAttribute('href') === '#') {
-            e.preventDefault();
-            console.log('This is a demo link. Please replace with your actual project/social media links!');
-        }
-    });
-});
-
-// ===== Console Message =====
-console.log('%c🚀 Portfolio Website Loaded Successfully!', 'color: #00d4ff; font-size: 20px; font-weight: bold;');
-console.log('%c💡 Built with HTML, CSS, and JavaScript', 'color: #00ff88; font-size: 14px;');
-console.log('%c📧 Interested in working together? Let\'s connect!', 'color: #0066ff; font-size: 14px;');
-console.log('%c⚡ Powered by GitHub Pages', 'color: #ff6b00; font-size: 14px;');
-console.log('%c♿ WCAG AA Compliant', 'color: #00ff88; font-size: 14px; font-weight: bold;');
-
-// ===== Announce page load to screen readers =====
-window.addEventListener('load', () => {
+// ===== Accessibility: Announce dynamic content changes =====
+function announceToScreenReader(message) {
     const announcement = document.createElement('div');
     announcement.setAttribute('role', 'status');
     announcement.setAttribute('aria-live', 'polite');
-    announcement.className = 'visually-hidden';
-    announcement.textContent = 'Portfolio page loaded successfully. You are now on the home section.';
+    announcement.setAttribute('aria-atomic', 'true');
+    announcement.className = 'sr-only';
+    announcement.textContent = message;
     document.body.appendChild(announcement);
-    setTimeout(() => announcement.remove(), 3000);
+    
+    setTimeout(() => {
+        document.body.removeChild(announcement);
+    }, 1000);
+}
+
+// ===== Keyboard Navigation Enhancement =====
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (navMenu && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.focus();
+        }
+    }
 });
+
+// ===== Reduced Motion Support =====
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+if (prefersReducedMotion.matches) {
+    document.querySelectorAll('[data-aos]').forEach(element => {
+        element.removeAttribute('data-aos');
+        element.removeAttribute('data-aos-delay');
+    });
+}
