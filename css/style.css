@@ -708,6 +708,21 @@ section {
     position: relative;
 }
 
+.profile-photo {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow-lg);
+    transition: var(--transition);
+}
+
+.profile-photo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 70px rgba(0, 212, 255, 0.4);
+}
+
 .image-placeholder {
     width: 100%;
     max-width: 400px;
